@@ -18,6 +18,7 @@ Ensures that the output strictly adheres to a pre-defined structured format.
 🔹 Automated JSON Output: Saves the extracted details in a structured JSON file for further use.
 
 Tech Stack:
+
 ✅ Python (Primary language)
 ✅ PyMuPDF (fitz) - PDF text extraction
 ✅ pdf2image & pytesseract - OCR for scanned PDFs
