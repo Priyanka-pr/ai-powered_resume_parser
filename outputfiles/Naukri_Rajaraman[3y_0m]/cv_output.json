@@ -1,0 +1,92 @@
+{
+    "basic_info": {
+        "first_name": "RAJARAMAN",
+        "last_name": "SEKAR",
+        "phone_number": "+91 7904801218",
+        "email": "paradox2cr@gmail.com",
+        "gender": "",
+        "location": "Coimbatore, India",
+        "linkedin_url": "",
+        "designation": "",
+        "university": "",
+        "education_level": "",
+        "graduation_year": "",
+        "graduation_month": ""
+    },
+    "objective": "",
+    "education": [
+        {
+            "degree_certificate": "Bachelor of Engineering in Electronics and Communication",
+            "institution": "CIET-Coimbatore",
+            "passing_year": "April 2018",
+            "completion_year": "August 2014 - April 2018",
+            "GPA": "7"
+        },
+        {
+            "degree_certificate": "Class XII",
+            "institution": "Rotary Club Hr.Sc.School",
+            "passing_year": "June 2014",
+            "completion_year": "",
+            "GPA": "70%"
+        },
+        {
+            "degree_certificate": "Class X",
+            "institution": "G.G.S.M.Hr.Sc.School",
+            "passing_year": "June 2012",
+            "completion_year": "",
+            "GPA": "74%"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "Iva Technos",
+            "position": "Front-End developer",
+            "start_date": "May 2022",
+            "end_date": "",
+            "responsibilities": [
+                "I am responsible for UI design and functionality of web applications",
+                "Technology used for Front End: HTML, CSS, Bootstrap, Jquery, Angular-JS."
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "project_name": "Online Shop",
+            "technologies_used": [
+                "Node js"
+            ],
+            "description": "It is an online shop-based shopping site with multiple shops enabled with an admin dashboard, order tracking, and all basic functionalities",
+            "github_link": ""
+        },
+        {
+            "project_name": "Enterprise resource planning Tool",
+            "technologies_used": [
+                "Java"
+            ],
+            "description": "It is a local Shop Resource Management tool, Its capable of avoiding ambiguity in stock for online sales and local shop sales",
+            "github_link": ""
+        },
+        {
+            "project_name": "Self-Learning Project",
+            "technologies_used": [
+                "Java",
+                "swing",
+                "HTML",
+                "CSS"
+            ],
+            "description": "Projects: Snake Game, Notepad, Company Web Site",
+            "github_link": ""
+        }
+    ],
+    "certifications": [],
+    "publications": [],
+    "skills": [
+        "Language: Java",
+        "Front-end: HTML, CSS, Angular-JS, Bootstrap, JQuery, Ejs.",
+        "Back-end: Node-Js, Express, Sequelize.",
+        "Database: MySQL",
+        "GUI: Java Swing"
+    ],
+    "interests": [],
+    "additional_information": []
+}

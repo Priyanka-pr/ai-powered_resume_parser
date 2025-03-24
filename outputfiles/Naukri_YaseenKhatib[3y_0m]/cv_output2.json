@@ -1,0 +1,138 @@
+{
+    "basic_info": {
+        "first_name": "Yaseen",
+        "last_name": "Khatib",
+        "phone_number": "8208335028",
+        "email": "yaseenkhatib04@gmail.com",
+        "gender": "",
+        "location": "Pune, Maharashtra",
+        "linkedin_url": "LinkedIn",
+        "designation": "Full Stack Web Developer",
+        "university": "D. Y. PATIL COLLEGE OF ENG. AND TECH.",
+        "education_level": "BE",
+        "graduation_year": "2021",
+        "graduation_month": "May"
+    },
+    "objective": "",
+    "education": [
+        {
+            "degree_certificate": "BE in Computer Science and Engineering",
+            "institution": "D. Y. PATIL COLLEGE OF ENG. AND TECH.",
+            "passing_year": "2021",
+            "completion_year": "2021",
+            "GPA": "6.6/10"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "MSA SOFTWARE LLC",
+            "position": "Full Stack Web Developer",
+            "start_date": "Jan 2022",
+            "end_date": "Current",
+            "location": "Remote, India",
+            "responsibilities": [
+                "Successfully migrated JavaScript to TypeScript, optimizing the entire portal.",
+                "Made the dashboard response time 1.5x with the useMemo hook for efficient API calls.",
+                "Enhanced state management and SEO support through lazy loading in React."
+            ]
+        },
+        {
+            "company": "MANORAMA INFOSOLUTIONS PVT LTD.",
+            "position": "Software Developer SDE 1",
+            "start_date": "Sept 2021",
+            "end_date": "Jan 2023",
+            "location": "Kolhapur, India",
+            "responsibilities": [
+                "Engineered a high-performance REST API in ASP.NET, achieving a 2x boost in data transfer speed.",
+                "Migrated .NET Core Frontend to ReactJs for Better Efficiency",
+                "Elevated code organization and maintainability by transitioning to a Model-View-Controller (MVC) architecture."
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "name": "WAVECHAT",
+            "description": "A Chatting app where People can interact with each other after Adding them as a Friend.",
+            "technologies_used": [
+                "Node.js",
+                "Express.js",
+                "Passport.js",
+                "React JS"
+            ],
+            "github_link": "GITHUB",
+            "date": "March 2024"
+        },
+        {
+            "name": "WASSERSTOFF DASHBOARD",
+            "description": "An Admin Dashboard where we can see Sales, Products and purchase History of any User.",
+            "technologies_used": [
+                "Node.js",
+                "Express.js",
+                "Passport.js",
+                "React JS"
+            ],
+            "github_link": "GITHUB",
+            "date": "April 2023 - Present"
+        },
+        {
+            "name": "HOSPITAL-API",
+            "description": "At the time of COVID-19 the patients were assigned to the doctor, to get the information on which patient was assigned to which Doctor this API was used.",
+            "technologies_used": [
+                "Node.js",
+                "Express.js",
+                "Passport.js",
+                "React JS"
+            ],
+            "github_link": "GITHUB",
+            "date": "April 2023 - Present"
+        }
+    ],
+    "certifications": [
+        {
+            "name": "Career Camp | React",
+            "duration": "4 months",
+            "awarded_in": "October, 2023"
+        },
+        {
+            "name": "Career Camp | Back End | Full Stack Web Development in Node.js",
+            "duration": "3 months",
+            "awarded_in": "October, 2023"
+        }
+    ],
+    "publications": [],
+    "skills": {
+        "programming": {
+            "proficient": [
+                "React Js",
+                "JavaScript",
+                "SQL",
+                "CSS",
+                "Node Js",
+                "MongoDB"
+            ],
+            "experienced": [
+                "Java (DSA)"
+            ],
+            "familiar": [
+                "Wordpress",
+                "SEO"
+            ]
+        },
+        "libraries_frameworks": [
+            "jQuery",
+            "Node.js",
+            "React",
+            "SCSS",
+            "Bootstrap"
+        ],
+        "tools_platforms": [
+            "Git",
+            "Eclipse",
+            "Vs Code",
+            "Heroku",
+            "Docker"
+        ]
+    },
+    "interests": [],
+    "additional_information": []
+}

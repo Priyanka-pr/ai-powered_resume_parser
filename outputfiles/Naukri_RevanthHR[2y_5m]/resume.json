@@ -1,0 +1,92 @@
+{
+    "basic_info": {
+        "first_name": "Revanth",
+        "last_name": "H R",
+        "phone_number": "9844815069",
+        "email": "revanthrudreshg9@gmail.com",
+        "gender": "",
+        "location": "Bengaluru, KA",
+        "linkedin_url": "linkedin.com/in/revanth-h-r-63010625b",
+        "designation": "Fullstack Developer",
+        "university": "",
+        "education_level": "",
+        "graduation_year": "",
+        "graduation_month": "",
+        "remarks": "Extract personal details carefully. Ensure the phone number follows a standard format."
+    },
+    "objective": {
+        "text": "Results-oriented Fullstack Developer with 2 + years of expertise in HTML, CSS, JavaScript, Node.js, ReactJS, and Manual testing.",
+        "remarks": "Extract the career objective or summary mentioned at the beginning of the resume. If not explicitly mentioned, try to infer from the resume content."
+    },
+    "education": [
+        {
+            "degree_certificate": "B.E",
+            "institution": "Akshaya Institute of Technology",
+            "passing_year": "2021",
+            "completion_year": "2021",
+            "GPA": "7.42",
+            "remarks": "Ensure all education details are extracted, including missing dates or GPA."
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "Technotharanga Solutions Pvt Ltd",
+            "role": "Fullstack Developer",
+            "start_date": "06/2022",
+            "end_date": "present",
+            "responsibilities": "Specializing in cutting-edge technologies, building RESTful APIs, server-side logic, collaborating with cross-functional teams, and delivering high-quality software solutions.",
+            "remarks": "Extract role, company name, and work period. If dates are missing, try to infer them from the resume."
+        }
+    ],
+    "projects": [
+        {
+            "project_name": "My School Book",
+            "description": "School Management System",
+            "technologies_used": "HTML, CSS, JavaScript, React.js, Node.js, MongoDB",
+            "responsibilities": "Design and develop user interface components using Reactjs, execution of test cases, and participation in Retrospective meetings."
+        },
+        {
+            "project_name": "Spectrum",
+            "description": "Management tool software",
+            "technologies_used": "Javascript, React.js, Node.js, MongoDB, Express Js",
+            "responsibilities": "Understanding client requirements, developing and maintaining server-side applications using Nodejs, and documenting software development processes."
+        },
+        {
+            "project_name": "Destinex",
+            "description": "Traveling domain project (E-commerce)",
+            "technologies_used": "HTML, CSS, JavaScript, React.js, Node.js, MongoDB",
+            "responsibilities": "Understanding client requirements, designing and developing web application interfaces, integrating user-facing elements with server-side logic, and fixing errors during testing."
+        },
+        {
+            "project_name": "ORDER Karnataka",
+            "description": "Static NGO website",
+            "technologies_used": "",
+            "responsibilities": "Understanding client requirements, documenting test cases, executing test cases, and participating in Retrospective meetings."
+        }
+    ],
+    "certifications": [],
+    "publications": [],
+    "skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React Js",
+        "NodeJS",
+        "Bootstrap",
+        "MongoDB",
+        "SQL",
+        "Manual testing",
+        "API testing",
+        "Postman",
+        "Thunder client",
+        "Swagger",
+        "visual studio code",
+        "eclipse",
+        "Click up",
+        "Git",
+        "GitHub",
+        "Java"
+    ],
+    "interests": [],
+    "additional_information": []
+}

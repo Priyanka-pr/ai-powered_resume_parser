@@ -1,0 +1,83 @@
+{
+    "basic_info": {
+        "first_name": "Revanth",
+        "last_name": "H R",
+        "phone_number": "9844815069",
+        "email": "revanthrudresh99@gmail.com",
+        "gender": "",
+        "location": "Bengaluru, KA",
+        "linkedin_url": "linkedin.com/in/revanth-h-r-63010625b",
+        "designation": "Fullstack Developer",
+        "university": "Akshaya Institute of Technology",
+        "education_level": "B.E",
+        "graduation_year": "2021",
+        "graduation_month": "08"
+    },
+    "objective": "",
+    "education": [
+        {
+            "degree_certificate": "B.E",
+            "institution": "Akshaya Institute of Technology",
+            "passing_year": "2017",
+            "completion_year": "2021",
+            "GPA": "7.42"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "Technotharanga Solutions Pvt Ltd",
+            "position": "Fullstack Developer",
+            "start_date": "06/2022",
+            "end_date": "present",
+            "location": "Tumakuru, Karnataka",
+            "description": "A leading software development company known for delivering innovative IT solutions across diverse industries. Specializing in cutting-edge technologies, we provide tailored software products and services that drive business growth."
+        }
+    ],
+    "projects": [
+        {
+            "name": "My School Book",
+            "description": "School Management System",
+            "technologies": "HTML, CSS, JavaScript, React.js, Node.js, MongoDB",
+            "responsibilities": "Understanding the client requirements by analyze functional documents. Design and Development of web application best interface. Design and develop user interface components using React.js. Develop reusable components and usage of respective front-end libraries as per the CRS Execution of Test Cases and reporting the bugs through defect tracking tool \u2013 Click up. Participated in Retrospective meetings."
+        },
+        {
+            "name": "Spectrum",
+            "description": "Management tool software",
+            "technologies": "Javascript, React.js, Node.js, MongoDB, Express Js",
+            "responsibilities": "Understanding the client requirement and clarifying the requirement with the Project Head / Client. Building and maintaining RESTful APIs Developing and maintaining server-side applications using Node.js Utilizing various Node.js modules and libraries Document software development processes Design and Development of web application best interface. Fixing all major/minor errors found during the testing phase."
+        },
+        {
+            "name": "Destinex",
+            "description": "Traveling domain project (E commerce)",
+            "technologies": "HTML, CSS, JavaScript, React.js, Node.js, MongoDB",
+            "responsibilities": "Understanding the client requirement and clarifying the requirement with the Project Head / Client. Design and Development of web application best interface. Design and develop user interface components using React.js Develop reusable components and usage of respective front-end libraries as per the CRS Develop application components using ES6/7, HTML5, and CSS3 Integrate user-facing elements with server-side logic Developing and maintaining server-side applications using Node.js Document software development processes fixing all major/minor errors found during the testing phase."
+        },
+        {
+            "name": "ORDER Karnataka",
+            "description": "Static NGO website",
+            "technologies": "",
+            "responsibilities": "Understanding the client requirements Documenting the test cases, their outcomes, and the expected results to determine the quality of the software product Execution of Test Cases and reporting the bugs through defect tracking tool \u2013 Click up Participated in Retrospective meetings."
+        }
+    ],
+    "certifications": [],
+    "publications": [],
+    "skills": [
+        "JavaScript",
+        "React Js",
+        "NodeJS",
+        "Web technologies",
+        "HTML, CSS, Bootstrap",
+        "Database",
+        "MongoDB, SQL",
+        "Manual testing",
+        "API testing",
+        "Postman, Thunder client, Swagger",
+        "Tools",
+        "Visual studio code, eclipse, Click up",
+        "Version control System",
+        "Git, GitHub",
+        "Java"
+    ],
+    "interests": [],
+    "additional_information": []
+}

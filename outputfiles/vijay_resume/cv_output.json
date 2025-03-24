@@ -1,0 +1,82 @@
+{
+    "basic_info": {
+        "first_name": "Vijay",
+        "last_name": "Kumar",
+        "phone_number": "+91 9548036915",
+        "email": "kumarvansh1999@gmail.com",
+        "gender": "",
+        "location": "Ramnagar, Nainital, Uttarakhand",
+        "linkedin_url": "https://www.linkedin.com/in/vijay-kumar-jamwal",
+        "designation": "Recent Computer Science Engineering graduate",
+        "university": "Uttarakhand Technical University",
+        "education_level": "B.Tech",
+        "graduation_year": "2024",
+        "graduation_month": ""
+    },
+    "objective": "Recent Computer Science Engineering graduate with a strong foundation in theoretical concepts and a keen interest in applying knowledge to real-world coding challenges. Eager to leverage academic expertise in Java, SQL, and software engineering principles in an entry-level role.",
+    "education": [
+        {
+            "degree_certificate": "Diploma",
+            "institution": "UBTER",
+            "passing_year": "2020",
+            "completion_year": "",
+            "GPA": ""
+        },
+        {
+            "degree_certificate": "10+2",
+            "institution": "Uttarakhand Board",
+            "passing_year": "2017",
+            "completion_year": "",
+            "GPA": ""
+        }
+    ],
+    "work_experience": [],
+    "projects": [
+        {
+            "project_name": "Library Management System",
+            "technologies_used": "Java"
+        },
+        {
+            "project_name": "Snake Game",
+            "technologies_used": "Java, GUI"
+        }
+    ],
+    "certifications": [
+        "Java Programming (Beginner to Master) - Udemy",
+        "Java 11 - LinkedIn Learning",
+        "SQL Programming - LinkedIn Learning",
+        "Software Engineering & Agile Development - Infosys Springboard"
+    ],
+    "publications": [],
+    "skills": [
+        "Object-Oriented Programming (OOP)",
+        "Basic in Java",
+        "Problem-Solving",
+        "Team Collaboration"
+    ],
+    "interests": [],
+    "additional_information": [
+        {
+            "title": "Training & Workshops",
+            "details": [
+                "Java Training, Ascentrek Consultancy Services",
+                "Introduction to IoT, Amrapali Institute of Science and Technology",
+                "Virtual Labs Workshop, IIT Roorkee"
+            ]
+        },
+        {
+            "title": "Extracurricular Activities",
+            "details": [
+                "Program Coordinator, PECAH - Artistic Residency Program (NGO Bhor Society)",
+                "Theatre Workshop Participant, National School of Drama, Delhi"
+            ]
+        },
+        {
+            "title": "Honors & Awards",
+            "details": [
+                "NCC \u201cA\u201d Certificate",
+                "1st Place in State-Level Theatre Competition, UBTER (2019-2020)"
+            ]
+        }
+    ]
+}

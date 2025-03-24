@@ -1,0 +1,117 @@
+{
+    "basic_info": {
+        "first_name": "Rajaraman",
+        "last_name": "Sekar",
+        "phone_number": "+91 7904801218",
+        "email": "paradox2cr@gmail.com",
+        "gender": "",
+        "location": "Coimbatore, India",
+        "linkedin_url": "",
+        "designation": "Front-End developer",
+        "university": "Coimbatore Institute of Engineering and Technology",
+        "education_level": "Bachelor of Engineering",
+        "graduation_year": "2018",
+        "graduation_month": "April"
+    },
+    "objective": "",
+    "education": [
+        {
+            "degree_certificate": "Bachelor of Engineering in Electronics and Communication",
+            "institution": "CIET-Coimbatore",
+            "passing_year": "2018",
+            "completion_year": "2018",
+            "GPA": "7"
+        },
+        {
+            "degree_certificate": "Class XII",
+            "institution": "Rotary Club Hr.Sc.School",
+            "passing_year": "2014",
+            "completion_year": "2014",
+            "GPA": "70%"
+        },
+        {
+            "degree_certificate": "Class X",
+            "institution": "G.G.S.M.Hr.Sc.School",
+            "passing_year": "2012",
+            "completion_year": "2012",
+            "GPA": "74%"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "Iva Technos",
+            "position": "Front-End developer",
+            "start_date": "May 2022",
+            "end_date": "",
+            "responsibilities": "Responsible for UI design and functionality of web applications. Technology used for Front End: HTML, CSS, Bootstrap, Jquery, Angular-JS."
+        }
+    ],
+    "projects": [
+        {
+            "project_name": "Online Shop",
+            "description": "An online shop-based shopping site with multiple shops enabled with an admin dashboard, order tracking, and all basic functionalities.",
+            "technologies_used": "Node-js, Express, MySQL (Back-end); HTML, CSS, Ejs (Front-end)",
+            "github_link": "github Link"
+        },
+        {
+            "project_name": "Enterprise resource planning Tool",
+            "description": "A local Shop Resource Management tool capable of avoiding ambiguity in stock for online sales and local shop sales.",
+            "technologies_used": "Java, swing, MySQL",
+            "github_link": "github Link"
+        },
+        {
+            "project_name": "Self-Learning Project",
+            "description": "Projects: Snake Game, Notepad, Company Web Site",
+            "technologies_used": "Java, swing, HTML, CSS",
+            "github_link": "github Link"
+        }
+    ],
+    "certifications": [],
+    "publications": [],
+    "skills": [
+        "Java",
+        "HTML",
+        "CSS",
+        "Angular-JS",
+        "Bootstrap",
+        "JQuery",
+        "Ejs",
+        "Node-Js",
+        "Express",
+        "Sequelize",
+        "MySQL",
+        "Java Swing"
+    ],
+    "interests": [],
+    "additional_information": [
+        {
+            "category": "COURSEWORK",
+            "details": [
+                "Data Structures and Algorithms",
+                "Object-Oriented Programming",
+                "Computer Networks"
+            ]
+        },
+        {
+            "category": "POSITION OF RESPONSIBILITY",
+            "details": [
+                "Event Organiser - Spasso, was one of the flagship events of CIET 2018.",
+                "Team lead in college projects"
+            ]
+        },
+        {
+            "category": "STRENGTH",
+            "details": [
+                "Emotional intelligence",
+                "Determined",
+                "Fast Learner"
+            ]
+        },
+        {
+            "category": "BOOTCAMP",
+            "details": [
+                "Data Structure and Algorithm Boot camp - Completed OOPS and Intermediate DSA in Java"
+            ]
+        }
+    ]
+}

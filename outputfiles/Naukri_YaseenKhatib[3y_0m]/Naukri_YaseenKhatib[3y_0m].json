@@ -1,0 +1,98 @@
+{
+    "basic_info": {
+        "first_name": "Yaseen",
+        "last_name": "Khatib",
+        "phone_number": "8208335028",
+        "gender": "",
+        "location": "Pune, Maharashtra",
+        "linkedin_url": "LinkedIn",
+        "designation": "Full Stack Web Developer",
+        "industry_function": ""
+    },
+    "objective": "",
+    "education": [
+        {
+            "degree_certificate": "BE(COMPUTER SCIENCE AND ENG.)",
+            "institution": "D. Y. PATIL COLLEGE OF ENG. AND TECH.",
+            "passing_year": "2021",
+            "completion_year": "2018 - 2021",
+            "GPA": "6.6 / 10"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "MSA SOFTWARE LLC",
+            "position": "FULLSTACK WEB DEVELOPER",
+            "start_date": "Jan 2022",
+            "end_date": "Current",
+            "location": "Remote, India"
+        },
+        {
+            "company": "MANORAMA INFOSOLUTIONS PVT LTD.",
+            "position": "SOFTWARE DEVELOPER SDE 1",
+            "start_date": "Sept 2021",
+            "end_date": "Jan 2023",
+            "location": "Kolhapur, India"
+        }
+    ],
+    "projects": [
+        {
+            "name": "WAVECHAT(FULL STACK PROJECT)",
+            "technologies_used": "NODE.JS, EXPRESS.JS, PASSPORT.JS,REACT JS",
+            "start_date": "March 2024",
+            "description": "A Chatting app where People can interact with each other after Adding them as a Friend. A complete Signin/Signup using OAuth 2.0 and JSON Web Tokens (JWT). Developed RESTful APIs with Express.js and Node.js to signup and signin. Mobile Responsive for better use of out app."
+        },
+        {
+            "name": "WASSERSTOFF DASHBOARD (FRONTEND PROJECT)",
+            "technologies_used": "NODE.JS, EXPRESS.JS, PASSPORT.JS,REACT JS",
+            "start_date": "April 2023",
+            "end_date": "Present",
+            "description": "An Admin Dashboard where we can see Sales,Products and purchase History of any User. Front-end heavy app with optimization of Geojson Data and NodeJs. Used Firebase for user database"
+        },
+        {
+            "name": "HOSPITAL\u2011API(BACKEND PROJECT)",
+            "technologies_used": "NODE.JS, EXPRESS.JS, PASSPORT.JS,REACT JS",
+            "start_date": "April 2023",
+            "end_date": "Present",
+            "description": "At the time of COVID-19 the patients were assigned to the doctor, to get the information on which patient was assigned to which Doctor this API was used. The API is developed with Node.js, leveraging Express.js as the web framework, and MongoDB for efficient data storage."
+        }
+    ],
+    "certifications": [],
+    "publications": [],
+    "skills": [
+        {
+            "category": "PROGRAMMING",
+            "skills": [
+                "React Js",
+                "JavaScript",
+                "SQL",
+                "CSS",
+                "Node Js",
+                "MongoDB",
+                "Java (DSA)"
+            ]
+        },
+        {
+            "category": "LIBRARIES/FRAMEWORKS",
+            "skills": [
+                "jQuery",
+                "Node.js",
+                "React",
+                "SCSS",
+                "Bootstrap"
+            ]
+        },
+        {
+            "category": "TOOLS/PLATFORMS",
+            "skills": [
+                "Git",
+                "Eclipse",
+                "Vs Code",
+                "Heroku",
+                "Docker"
+            ]
+        }
+    ],
+    "interests": [],
+    "additional_information": []
+}

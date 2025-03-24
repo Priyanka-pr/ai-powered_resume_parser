@@ -1,0 +1,77 @@
+{
+    "basic_info": {
+        "first_name": "Yash",
+        "last_name": "Dive",
+        "phone_number": "+91-7720907190",
+        "email": "yashdive190@gmail.com",
+        "gender": "",
+        "location": "Pune, Maharashtra, 411057",
+        "linkedin_url": "",
+        "designation": "Developer",
+        "university": "Sanjivani College of Engineering, Kopargaon",
+        "education_level": "B.E. Computer Engineering",
+        "graduation_year": "2022",
+        "graduation_month": "06"
+    },
+    "objective": "I'm a full-stack developer with strong background in front-end as well as back-end technologies. I have delivered multiple industrial projects that need creative solutions. Skilled in designing and implementing scalable, secure, and efficient web applications. I like helping companies grow by coming up with smart ways to improve their software. I've achieved success in previous projects, and I'm passionate about continuing to learn and make a positive impact in the field of software development.",
+    "education": [
+        {
+            "degree_certificate": "B.E. Computer Engineering",
+            "institution": "Sanjivani College of Engineering, Kopargaon",
+            "passing_year": "2022",
+            "completion_year": "06/2022",
+            "GPA": "9.43 CGPA"
+        },
+        {
+            "degree_certificate": "Secondary School",
+            "institution": "R.B.N.B College, Shrirampur",
+            "passing_year": "2018",
+            "completion_year": "05/2018",
+            "GPA": "72.92 %"
+        },
+        {
+            "degree_certificate": "Primary School",
+            "institution": "St. Xavier's High School, Shrirampur",
+            "passing_year": "2016",
+            "completion_year": "06/2016",
+            "GPA": "92 %"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "Tata Consultancy Services",
+            "title": "Developer",
+            "start_date": "July 2022",
+            "end_date": "Present",
+            "responsibilities": [
+                "Developed the 'Suyo' demand management application using Angular, ensuring a seamless user experience for various user roles including managers and administrators which saved 750 labour hours per year and reduced the approval time from 2 days to 1 day on average.",
+                "Collaborated closely with the backend team to integrate frontend components with the Spring Boot backend, enabling smooth data flow and real-time updates throughout the application.",
+                "Designed and implemented responsive UI components utilizing Bootstrap, ensuring optimal user experience across different devices and screen sizes.",
+                "Led the creation of interactive pages and UI flows for demand creation and approval processes, enhancing user engagement and efficiency thereby increasing the user satisfaction by 70% to 90% and reduced the manual errors by 90%.",
+                "Resolved complex challenges and optimized solutions for critical functionalities, ensuring high performance and scalability of the application.",
+                "Contributed to the continuous improvement of development processes, including code reviews, testing, and documentation, to maintain high standards of quality and efficiency in project delivery."
+            ]
+        }
+    ],
+    "projects": [],
+    "certifications": [
+        "SQL for data science",
+        "Machine learning with AI using python",
+        "Quantum Learning",
+        "Python for data science and machine learning bootcamp, udemy"
+    ],
+    "publications": [],
+    "skills": [
+        "Front-end: AngularJS, ReactJS, HTML, CSS, Bootstrap",
+        "Back-end: NodeJS, ExpressJS, Redux",
+        "Database: MySQL, PostgreSQL",
+        "Languages: Javascript, Typescript, Python, Java",
+        "Cloud: AWS"
+    ],
+    "interests": [],
+    "additional_information": [
+        "Good communication",
+        "Team working skill",
+        "Flexible"
+    ]
+}

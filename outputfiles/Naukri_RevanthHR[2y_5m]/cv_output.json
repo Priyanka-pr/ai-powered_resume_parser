@@ -1,0 +1,33 @@
+{
+    "basic_info": {
+        "first_name": "Revanth",
+        "last_name": "H R",
+        "phone_number": "9844815069",
+        "email": "revanthrudresh99@gmail.com",
+        "gender": "",
+        "location": "Bengaluru KA",
+        "linkedin_url": "linkedin.com/in/revanth-h-r-",
+        "designation": "Fullstack Developer",
+        "university": "Akshaya institute of Technology",
+        "education_level": "B.E",
+        "graduation_year": "2021",
+        "graduation_month": "08"
+    },
+    "objective": "",
+    "education": [
+        {
+            "degree_certificate": "B.E",
+            "institution": "Akshaya institute of Technology",
+            "passing_year": "2021",
+            "completion_year": "2021",
+            "GPA": "7.42"
+        }
+    ],
+    "work_experience": [],
+    "projects": [],
+    "certifications": [],
+    "publications": [],
+    "skills": [],
+    "interests": [],
+    "additional_information": []
+}

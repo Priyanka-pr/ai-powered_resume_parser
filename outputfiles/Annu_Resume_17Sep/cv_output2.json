@@ -1,0 +1,133 @@
+{
+    "basic_info": {
+        "first_name": "Annu",
+        "last_name": "Rathour",
+        "phone_number": "770-1831-328",
+        "email": "annurathour23@gmail.com",
+        "gender": "Female",
+        "location": "Gurgaon, India",
+        "linkedin_url": "LinkedIn:// Annu Rathour",
+        "designation": "Mobile Application Engineer",
+        "university": "SHOBHIT UNIVERSITY",
+        "education_level": "B.Tech",
+        "graduation_year": "2018",
+        "graduation_month": "July"
+    },
+    "objective": "",
+    "education": [
+        {
+            "degree_certificate": "B.Tech (CSE)",
+            "institution": "SHOBHIT UNIVERSITY",
+            "passing_year": "2018",
+            "completion_year": "July",
+            "GPA": "7.7 / 10"
+        },
+        {
+            "degree_certificate": "12th (PCM)",
+            "institution": "GURJAR KANYA VIDYA MANDIR",
+            "passing_year": "2013",
+            "completion_year": "May",
+            "GPA": ""
+        },
+        {
+            "degree_certificate": "10th (Science)",
+            "institution": "JILA SINGH HIGH SCHOOL",
+            "passing_year": "2012",
+            "completion_year": "May",
+            "GPA": ""
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "DEW SOLUTIONS PVT.LTD",
+            "position": "Mobile Application Engineer",
+            "start_date": "April 2022",
+            "end_date": "Present",
+            "location": "Gurgaon, India",
+            "projects": [
+                {
+                    "name": "TATA Neu App (Flash Commerce) IOS | Android",
+                    "description": "Tata Neu meets all your needs, from groceries and gadgets to travel and fitness. Earn NeuCoins with every purchase and enjoy rewards while shopping, dining, and more."
+                },
+                {
+                    "name": "EDTech | Tata Digital | Neu Skills",
+                    "description": "This app offers training for IT sector jobs, including resources for those from non-technical backgrounds, enabling anyone to start training and transition into the IT field."
+                }
+            ]
+        },
+        {
+            "company": "EPIC CORPORATIONS PVT.LTD",
+            "position": "Mobile Application Developer",
+            "start_date": "June 2020",
+            "end_date": "April 2022",
+            "location": "Gurgaon, India",
+            "projects": [
+                {
+                    "name": "Early Basket",
+                    "description": "This e-commerce app features buy and sell functionality, allowing sellers to list products with their details, while anyone can purchase items through the platform."
+                },
+                {
+                    "name": "Epic Tutor",
+                    "description": "This project offers a seamless online learning experience with distinct flows for teachers and students. It features assignment management, online classes, study materials, assessments, video tutorials, attendance tracking, and payments."
+                },
+                {
+                    "name": "FunmeLive",
+                    "description": "The FunmeLive app, built with Flutter, lets you connect with friends through live chatting, post uploads, and purchase coins for paid gifts and stickers."
+                }
+            ]
+        },
+        {
+            "company": "FASTLANE AUTOMOTIVE PVT. LTD",
+            "position": "Android Developer",
+            "start_date": "Oct 2018",
+            "end_date": "June 2020",
+            "location": "Gurgaon, India",
+            "projects": [
+                {
+                    "name": "Cattle Insurance Survey",
+                    "description": "The project is all about cattle insurance and surveys. Users can easily give feedback of the insurance service and easily apply for the cattle insurance from this app."
+                },
+                {
+                    "name": "Motor Claim",
+                    "description": "In this application, the user can apply for motor insurance and claim insurance for the pre-registered vehicle."
+                }
+            ]
+        },
+        {
+            "company": "TRILINE INFOTECH PVT.LTD",
+            "position": "Intern",
+            "start_date": "March 2018",
+            "end_date": "June 2018",
+            "location": "Delhi, India",
+            "projects": []
+        }
+    ],
+    "projects": [],
+    "certifications": [],
+    "publications": [],
+    "skills": [
+        "Flutter(Dart)",
+        "Java",
+        "XML",
+        "JSON",
+        "Android",
+        "SQLite",
+        "Firebase",
+        "Web Services",
+        "GIT",
+        "Agile(Scrum)",
+        "Google Api\u2019s",
+        "Kotlin",
+        "Spring",
+        "MySQL",
+        "Android Studio",
+        "Visual Studio",
+        "IntelliJ",
+        "Postman"
+    ],
+    "interests": [
+        "Learning New Thing",
+        "Listening Music"
+    ],
+    "additional_information": []
+}

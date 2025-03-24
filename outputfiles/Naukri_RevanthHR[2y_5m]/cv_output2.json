@@ -1,0 +1,102 @@
+{
+    "basic_info": {
+        "first_name": "Revanth",
+        "last_name": "H R",
+        "phone_number": "9844815069",
+        "email": "revanthrudresh99@gmail.com",
+        "gender": "",
+        "location": "Bengaluru KA",
+        "linkedin_url": "linkedin.com/in/revanth-h-r-63010625b",
+        "designation": "Fullstack Developer",
+        "university": "Akshaya institute of Technology",
+        "education_level": "B.E",
+        "graduation_year": "2021",
+        "graduation_month": "08"
+    },
+    "objective": "Results-oriented Fullstack Developer with 2 + years of expertise in HTML, CSS, JavaScript, Node.js, ReactJS and Manual testing. Proficient in frontend development technologies including HTML, CSS, Bootstrap, and JavaScript for creating visually appealing and responsive web interfaces. Experienced in modern frontend frameworks such as React JS for efficient and scalable web application development. Skilled in backend development using Node JS, with expertise in building RESTful APIs and server-side logic. Familiarity with Java programming language, including concepts such as OOPs. Knowledgeable in database management systems including MySQL and MongoDB for efficient data storage and retrieval. Understanding of software development methodologies such as Agile and Waterfall for structured and systematic project execution. Proficient in version control systems like Git and GitHub for collaborative development and code management. Dedicated to continuous learning and staying updated with industry trends in software development to enhance skills and expertise. Proficiency in utilizing IDEs such as Visual Studio Code for efficient coding and project management. Strong problem-solving skills, demonstrated through the ability to troubleshoot and resolve technical issues effectively. Effective communication and teamwork abilities, proven through collaboration with cross-functional teams to deliver high-quality software solutions.",
+    "education": [
+        {
+            "degree_certificate": "B.E",
+            "institution": "Akshaya institute of Technology",
+            "passing_year": "2021",
+            "completion_year": "2021",
+            "GPA": "7.42"
+        }
+    ],
+    "work_experience": [
+        {
+            "company": "Technotharanga Solutions Pvt Ltd",
+            "position": "Fullstack Developer",
+            "start_date": "06/2022",
+            "end_date": "present",
+            "location": "Tumakuru, Karnataka",
+            "description": "A leading software development company known for delivering innovative IT solutions across diverse industries. Specializing in cutting-edge technologies, we provide tailored software products and services that drive business growth. With a focus on client satisfaction and excellence, our team consistently delivers high-quality solutions to meet evolving market needs."
+        }
+    ],
+    "projects": [
+        {
+            "name": "My School Book",
+            "description": "School Management System",
+            "technologies_used": "HTML, CSS, JavaScript, React.js, Node.js, MongoDB",
+            "roles_responsibilities": [
+                "Understanding the client requirements by analyzing functional documents.",
+                "Design and Development of web application best interface.",
+                "Design and develop user interface components using React.js",
+                "Develop reusable components and usage of respective front-end libraries as per the CRS",
+                "Execution of Test Cases and reporting the bugs through defect tracking tool \u2013 Click up",
+                "Participated in Retrospective meetings."
+            ]
+        },
+        {
+            "name": "Spectrum",
+            "description": "Management tool software",
+            "technologies_used": "Javascript, React.js, Node.js, MongoDB, Express Js",
+            "roles_responsibilities": []
+        },
+        {
+            "name": "Destinex",
+            "description": "Traveling domain project (E commerce)",
+            "technologies_used": "HTML, CSS, JavaScript, React.js, Node.js, MongoDB",
+            "roles_responsibilities": []
+        },
+        {
+            "name": "ORDER Karnataka",
+            "description": "Static NGO website",
+            "technologies_used": "",
+            "roles_responsibilities": [
+                "Understanding the client requirements",
+                "Documenting the test cases, their outcomes, and the expected results to determine the quality of the software product",
+                "Execution of Test Cases and reporting the bugs through defect tracking tool \u2013 Click up",
+                "Participated in Retrospective meetings."
+            ]
+        }
+    ],
+    "certifications": [],
+    "publications": [],
+    "skills": [
+        "JavaScript",
+        "React Js",
+        "NodeJS",
+        "Web technologies",
+        "HTML, CSS, Bootstrap",
+        "Database",
+        "MongoDB, SQL",
+        "Manual testing",
+        "API testing",
+        "Postman, Thunder client, Swagger",
+        "Tools",
+        "visual studio code, eclipse, Click up",
+        "Version control System",
+        "Git, GitHub",
+        "Java"
+    ],
+    "interests": [],
+    "additional_information": [
+        "Understanding the client requirement and clarifying the requirement with the Project Head / Client. Building and maintaining RESTful APIs",
+        "Developing and maintaining server-side applications using Node.js",
+        "Utilizing various Node.js modules and libraries",
+        "Document software development processes",
+        "Design and Development of web application best interface.",
+        "Fixing all major/minor errors found during the testing phase."
+    ]
+}
