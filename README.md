@@ -2,6 +2,7 @@
 This project is an AI-powered resume parser that extracts structured information from PDF and DOCX files using GPT-3.5 Turbo / GPT-4o, OCR, and text processing libraries. It automates the extraction of key details such as personal information, education, work experience, skills, projects, and certifications from resumes.
 
 **Key Features:**
+
 🔹 File Handling: Supports PDF and DOCX file formats for resume parsing.
 
 🔹 Text Extraction: 
