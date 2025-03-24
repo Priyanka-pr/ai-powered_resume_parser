@@ -6,15 +6,15 @@ This project is an AI-powered resume parser that extracts structured information
 🔹 **File Handling:** Supports PDF and DOCX file formats for resume parsing.
 
 🔹 **Text Extraction:**
-        **PDF Processing:** Uses PyMuPDF (fitz) for extracting text from native PDFs.
+        PDF Processing: Uses PyMuPDF (fitz) for extracting text from native PDFs.
     
-        **OCR-based Extraction:** Converts scanned PDFs to images using pdf2image and extracts text using pytesseract.
+        OCR-based Extraction: Converts scanned PDFs to images using pdf2image and extracts text using pytesseract.
     
-        **DOCX Parsing:** Uses docx2txt to extract text from DOCX resumes.
-          🔹 **AI-Powered Information Extraction:** 
+        DOCX Parsing: Uses docx2txt to extract text from DOCX resumes.
+          🔹 AI-Powered Information Extraction:
                   Sends the extracted text to OpenAI’s GPT model to structure the data in JSON format.
                   Ensures that the output strictly adheres to a pre-defined structured format.
-                  🔹 **Automated JSON Output:** Saves the extracted details in a structured JSON file for further use.
+                  🔹 Automated JSON Output: Saves the extracted details in a structured JSON file for further use.
 
 **Tech Stack:**
 
