@@ -1,19 +1,20 @@
 import os
-from langchain_ollama import ChatOllama
-OPENAI_API_KEY=""
-HUGGINGFACEHUB_API_TOKEN = ""
-# I'm omitting all other keys
-def set_environment():
-    # Set connection with ChatOllama
-    # llm = ChatOllama(
-    # model="mistral-nemo",
-    # temperature=0.7,
-    # # stream=True,
-    # base_url="http://172.16.6.101:11434" 
-    # )
+from dotenv import load_dotenv
 
-    variable_dict = globals().items()
+load_dotenv()
+class Config:
+    LOCALHOST = os.getenv("LOCALHOST")
+    REMOTEHOST = os.getenv("REMOTEHOST")
+    MODEL = os.getenv("MODEL")
+
+# OPENAI_API_KEY=""
+# HUGGINGFACEHUB_API_TOKEN = ""
+
+def set_environment():
+    """Set environment variables for API-related configurations."""
+    variable_dict = Config.__dict__.items()
     for key, value in variable_dict:
-        if "API" in key or "ID" in key:
+        if key.isupper(): 
             os.environ[key] = value
 
+set_environment()

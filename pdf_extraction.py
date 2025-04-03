@@ -14,7 +14,7 @@ from langchain_community.document_loaders.pdf import PyPDFLoader
 # from langchain.output_parsers import PydanticOutputParser, SimpleJsonOutputParser
 from langchain.output_parsers import PydanticOutputParser
 from langchain.output_parsers import StructuredOutputParser
-# from langchain.output_parsers import JsonOutputParser
+from config import Config
 
 # import langchain.output_parsers
 # print(dir(langchain.output_parsers))
@@ -35,10 +35,20 @@ class WorkExperience(Experience):
     company: str = ""
     job_title: str = ""
 
-class Certification(pydantic.BaseModel):  # ✅ Added Certification Model
+class Certification(pydantic.BaseModel):
     name: str=""
     date: Optional[str] =""
     issuing_organization: Optional[str]=""
+
+class Project(pydantic.BaseModel):
+    name: str = ""
+    description: Optional[str] = ""
+    technologies_used: Optional[List[str]] = []
+
+class Training(pydantic.BaseModel):
+    name: str = ""
+    organization: Optional[str] = ""
+    date: Optional[str] = ""
 
 class Resume(pydantic.BaseModel):
     first_name: str = ""
@@ -48,8 +58,11 @@ class Resume(pydantic.BaseModel):
     nationality: Optional[str] = ""
     skill: Optional[List[str]] = []
     study: Optional[List[Study]] = []
+    projects: Optional[List[Project]] = []
     work_experience: Optional[List[WorkExperience]]=[]
     hobby: Optional[List[str]]=[]
+    certification:Optional[List[Certification]]=[]
+    trainings:Optional[List[Training]]=[]
 
 parser = PydanticOutputParser(pydantic_object=Resume)
 
@@ -95,38 +108,58 @@ def analyze_cv_from_content(file_content):
         print("Step 3: Generating prompt")
         print(f"Extracted_text ::: {extracted_text}")
 
+        format_instructions=parser.get_format_instructions()
+
         prompt = PromptTemplate(
             template="Extract structured resume details.\n{format_instructions}\nResume Text:\n{document}\n",
             input_variables=["document"],
             partial_variables={"format_instructions": parser.get_format_instructions()},
         )
+        print(f"Generated Prompt: {prompt.template}")
+        # Step 3: Format input for the prompt
+        formatted_prompt = prompt.format(document=extracted_text)
+        print(f"Formatted Prompt: {formatted_prompt}")
 
         # # ------------------ LLM Call ------------------
         llm = ChatOllama(
-            model="llama3.2:1b",
+            model=Config.MODEL,
             temperature=0.7,
-            base_url="http://127.0.0.1:11434"
+            base_url=Config.LOCALHOST
         )
-        chain = prompt | llm | parser
-        response = chain.invoke({"document": extracted_text})
+        print(f"Using LLM model: {Config.MODEL} at {Config.LOCALHOST}")
+        # chain = prompt | llm | parser
+
+         # Step 5: Send prompt to LLM
+        llm_response = llm.invoke(formatted_prompt)
+        print(f"Raw LLM Response: {llm_response}")
+
+        # Step 6: Parse response using the parser
+        parsed_response = parser.parse(llm_response.content)
+        print(f"Parsed Response: {parsed_response}")
+
+        # response = chain.invoke({"document": extracted_text})
         
+        # Step 7: Normalize data (Ensure lists are properly formatted)
+        parsed_response.skill = parsed_response.skill if isinstance(parsed_response.skill, list) else [parsed_response.skill]  
+        parsed_response.hobby = parsed_response.hobby if isinstance(parsed_response.hobby, list) else [parsed_response.hobby]  
+        parsed_response.study = parsed_response.study if isinstance(parsed_response.study, list) else [parsed_response.study]
+        print(f"Final Parsed Data: {parsed_response}")
+
         # ✅ Fix: Convert incorrect fields
-        response.skill = response.skill if isinstance(response.skill, list) else [response.skill]  
-        response.hobby = response.hobby if isinstance(response.hobby, list) else [response.hobby]  
-        response.study = response.study if isinstance(response.study, list) else [response.study]  
-
-        print(f"LLM Res:::: {response}")
-        # return response.dict()
+        # response.skill = response.skill if isinstance(response.skill, list) else [response.skill]  
+        # response.hobby = response.hobby if isinstance(response.hobby, list) else [response.hobby]  
+        # response.study = response.study if isinstance(response.study, list) else [response.study]
         # print(f"LLM Res:::: {response}")
-
-        return response.dict()
+        # return response.dict()
+        # return response.model_dump()
+        return parsed_response.model_dump()
+        # return"Hello"
     except Exception as e:
         print(f"Error analyzing CV: {traceback.format_exc()}")
         return None
 
 # ------------------ Save Extracted JSON ------------------
 def extract_and_save_json(data, output_file):
-    """Saves extracted JSON data to a file."""
     try:
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4)
@@ -136,7 +169,7 @@ def extract_and_save_json(data, output_file):
 
 # ------------------ Main Execution ------------------
 if __name__ == "__main__":
-    file_path = "pdffiles/vijay_resume.pdf"
+    file_path = "pdffiles/Naukri_Rajaraman[3y_0m].pdf"
 
     with open(file_path, 'rb') as file:
         file_content = file.read()
@@ -145,4 +178,4 @@ if __name__ == "__main__":
     extracted_data = analyze_cv_from_content(file_content)
 
     if extracted_data:
-        extract_and_save_json(extracted_data, "outputfiles/vijay_resume/resume_3.json")
+        extract_and_save_json(extracted_data, "outputfiles/Naukri_Rajaraman[3y_0m]/resume_1.json")

@@ -1,4 +1,5 @@
 from ollama import Client
+from config import Config
 
 # client = Client(
 #   host='http://172.16.6.163:11434',
@@ -26,10 +27,10 @@ from ollama import Client
 # print(response.message.content)
 
 client = Client(
-  host='http://127.0.0.1:11434',
+  host=Config.LOCALHOST,
   headers={'x-some-header': 'some-value'}
 )
-response = client.chat(model='mistral-nemo', messages=[
+response = client.chat(model=Config.MODEL, messages=[
   {
     'role': 'user',
     'content': 'Why is the sky blue?',
