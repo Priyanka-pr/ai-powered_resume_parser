@@ -1,11 +1,12 @@
 from pdf2image import convert_from_path
 import pydantic
-import json
+import json5
 import docx2txt
 import io
 import re
 import fitz  # PyMuPDF
 import traceback
+import logging
 from typing import Optional,List
 from langchain.prompts import PromptTemplate
 from langchain_core.messages.ai import AIMessage
@@ -15,54 +16,65 @@ from langchain_community.document_loaders.pdf import PyPDFLoader
 from langchain.output_parsers import PydanticOutputParser
 from langchain.output_parsers import StructuredOutputParser
 from config import Config
+from pydantic import ValidationError
+from pydantic import BaseModel, Field
 
 # import langchain.output_parsers
 # print(dir(langchain.output_parsers))
+# ------------------ Logger Setup ------------------
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 # ------------------ Data Models ------------------
-class Experience(pydantic.BaseModel):
-    start_date: Optional[str] = ""
-    end_date: Optional[str] = ""
-    description: Optional[str] = ""
+
+class Experience(BaseModel):
+    start_date: Optional[str] = Field(default=None, alias="startDate")
+    end_date: Optional[str] = Field(default=None, alias="endDate")
+    description: Optional[str] = None
 
 class Study(Experience):
-    degree: Optional[str] = ""
-    university: Optional[str] = ""
-    country: Optional[str] = ""
-    grade: Optional[str] = ""
+    degree: Optional[str] = None
+    university: Optional[str] = None
+    country: Optional[str] = None
+    grade: Optional[str] = None
 
 class WorkExperience(Experience):
-    company: str = ""
-    job_title: str = ""
+    company: str
+    job_title: str = Field(..., alias="jobTitle")
 
-class Certification(pydantic.BaseModel):
-    name: str=""
-    date: Optional[str] =""
-    issuing_organization: Optional[str]=""
+class Certification(BaseModel):
+    name: str
+    date: Optional[str] = None
+    issuing_organization: Optional[str] = Field(default=None, alias="issuingOrganization")
 
-class Project(pydantic.BaseModel):
+class Project(BaseModel):
+    name: str
+    description: Optional[str] = None
+    technologies_used: Optional[List[str]] = Field(default_factory=list, alias="technologiesUsed")
+
+class Training(BaseModel):
     name: str = ""
-    description: Optional[str] = ""
-    technologies_used: Optional[List[str]] = []
+    organization: Optional[str] = None
+    date: Optional[str] = None
 
-class Training(pydantic.BaseModel):
-    name: str = ""
-    organization: Optional[str] = ""
-    date: Optional[str] = ""
+class Resume(BaseModel):
+    first_name: str = Field(..., alias="firstName")
+    last_name: str = Field(..., alias="lastName")
+    linkedin_url: Optional[str] = Field(default=None, alias="linkedinUrl")
+    email_address: Optional[str] = Field(default=None, alias="emailAddress")
+    nationality: Optional[str] = None
+    skill: List[str] = Field(default_factory=list)
+    hobby: List[str] = Field(default_factory=list)
+    study: List[Study] = Field(default_factory=list)
+    projects: List[Project] = Field(default_factory=list)
+    work_experience: List[WorkExperience] = Field(default_factory=list, alias="workExperience")
+    certification: List[Certification] = Field(default_factory=list)
+    trainings: List[Training] = Field(default_factory=list)
 
-class Resume(pydantic.BaseModel):
-    first_name: str = ""
-    last_name: str = ""
-    linkedin_url: Optional[str] = ""
-    email_address: Optional[str] = ""
-    nationality: Optional[str] = ""
-    skill: Optional[List[str]] = []
-    study: Optional[List[Study]] = []
-    projects: Optional[List[Project]] = []
-    work_experience: Optional[List[WorkExperience]]=[]
-    hobby: Optional[List[str]]=[]
-    certification:Optional[List[Certification]]=[]
-    trainings:Optional[List[Training]]=[]
+    class Config:
+        populate_by_name = True
+        allow_population_by_field_name = True
 
 parser = PydanticOutputParser(pydantic_object=Resume)
 
@@ -75,7 +87,7 @@ def extract_text_from_pdf(file_content):
         for page in pdf_document:
             text += page.get_text("text") + "\n"
     except Exception as e:
-        print(f"Error extracting text from PDF: {e}")
+        logger.error(f"Error extracting text from PDF: {e}")
     return text
 
 # ------------------ DOCX Extraction ------------------
@@ -85,16 +97,15 @@ def extract_text_from_docx(file_content):
         if file_content.startswith(b'\x50\x4b\x03\x04'):
             return docx2txt.process(io.BytesIO(file_content)).strip()
         else:
-            print("Unsupported file type (.docx)")
+            logger.warning("Unsupported file type (.docx)")
             return None
     except Exception as e:
-        print(f"Error extracting text from .docx file: {e}")
+        logger.error(f"Error extracting text from .docx file: {e}")
         return None
 
 # ------------------ CV Parsing Logic ------------------
 def analyze_cv_from_content(file_content):
-    """Analyzes CV content and extracts structured data using AI."""
-    print("Step 2: Detect file type and extract text")
+    logger.info("Step 1: Detect file type and extract text")
 
     try:
         if file_content.startswith(b'%PDF'):
@@ -102,80 +113,100 @@ def analyze_cv_from_content(file_content):
         elif file_content.startswith(b'PK'):
             extracted_text = extract_text_from_docx(file_content)
         else:
-            print("Unsupported file type")
+            logger.warning("Unsupported file type")
             return None
-
-        print("Step 3: Generating prompt")
-        print(f"Extracted_text ::: {extracted_text}")
+        
+        if not extracted_text or len(extracted_text.strip()) < 100:
+            logger.warning("Resume content too short or unreadable")
+            return None
+        # logger.info(f"Step 2: Generate prompt and invoke LLM:: {extracted_text}")
 
         format_instructions=parser.get_format_instructions()
+        print(f"extracted_text type :: {type(extracted_text)}")
+        # extracted_text="name : Priyanka Rana"
 
         prompt = PromptTemplate(
-            template="Extract structured resume details.\n{format_instructions}\nResume Text:\n{document}\n",
+            template=(
+                "You are an intelligent resume parser. Your task is to carefully analyze the given resume"
+                "extract relevant structured information, and return the data in a well-formatted JSON structure. "
+                "Ensure that no important details are missed, and infer missing information where possible based on context. "
+                "Pay special attention to sections like education, work experience, skills, and certifications. "
+                "If certain details are missing, return them as empty strings instead of omitting them. "                
+                " Extract structured resume information in the following JSON format:\n\n{format_instructions}\n\n"
+                "Resume Text:\n{document}"
+            ),
             input_variables=["document"],
-            partial_variables={"format_instructions": parser.get_format_instructions()},
+            partial_variables={"format_instructions": format_instructions},
         )
-        print(f"Generated Prompt: {prompt.template}")
         # Step 3: Format input for the prompt
         formatted_prompt = prompt.format(document=extracted_text)
-        print(f"Formatted Prompt: {formatted_prompt}")
-
+        logger.info(f"prompt ::: {formatted_prompt}")
         # # ------------------ LLM Call ------------------
         llm = ChatOllama(
             model=Config.MODEL,
             temperature=0.7,
             base_url=Config.LOCALHOST
         )
-        print(f"Using LLM model: {Config.MODEL} at {Config.LOCALHOST}")
+        logger.info(f"Using LLM model: {Config.MODEL} at {Config.LOCALHOST}")
         # chain = prompt | llm | parser
 
          # Step 5: Send prompt to LLM
         llm_response = llm.invoke(formatted_prompt)
-        print(f"Raw LLM Response: {llm_response}")
+        logger.debug(f"Raw LLM Response: {llm_response.content}")
 
         # Step 6: Parse response using the parser
-        parsed_response = parser.parse(llm_response.content)
-        print(f"Parsed Response: {parsed_response}")
+        try:
+            parsed_response = parser.parse(llm_response.content)
+        except ValidationError as ve:
+            print(f"Pydantic parsing failed: {ve}")
+            return None
+        # parsed_response = parser.parse(llm_response.content)
+        # print(f"Parsed Response: {parsed_response}")
 
         # response = chain.invoke({"document": extracted_text})
         
         # Step 7: Normalize data (Ensure lists are properly formatted)
-        parsed_response.skill = parsed_response.skill if isinstance(parsed_response.skill, list) else [parsed_response.skill]  
-        parsed_response.hobby = parsed_response.hobby if isinstance(parsed_response.hobby, list) else [parsed_response.hobby]  
-        parsed_response.study = parsed_response.study if isinstance(parsed_response.study, list) else [parsed_response.study]
-        print(f"Final Parsed Data: {parsed_response}")
+        # Normalize all list fields
+        list_fields = ['skill', 'hobby', 'study', 'projects', 'work_experience', 'certification', 'trainings']
+        for field in list_fields:
+            val = getattr(parsed_response, field)
+            if val and not isinstance(val, list):
+                setattr(parsed_response, field, [val])
+
 
         # ✅ Fix: Convert incorrect fields
         # response.skill = response.skill if isinstance(response.skill, list) else [response.skill]  
         # response.hobby = response.hobby if isinstance(response.hobby, list) else [response.hobby]  
         # response.study = response.study if isinstance(response.study, list) else [response.study]
         # print(f"LLM Res:::: {response}")
-        # return response.dict()
+        logger.info(f"Final Parsed Data: {parsed_response}")
+        return parsed_response.dict()
         # return response.model_dump()
-        return parsed_response.model_dump()
+        # return parsed_response.model_dump_json()
         # return"Hello"
     except Exception as e:
-        print(f"Error analyzing CV: {traceback.format_exc()}")
+        logger.error(f"Error analyzing CV: {traceback.format_exc()}")
         return None
 
 # ------------------ Save Extracted JSON ------------------
 def extract_and_save_json(data, output_file):
     try:
         with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4)
-        print(f"JSON data successfully saved to {output_file}")
+            json5.dump(data, f, indent=4)
+        logger.info(f"JSON data successfully saved to {output_file}")
     except Exception as e:
-        print(f"Error saving JSON: {e}")
+        logger.error(f"Error saving JSON: {e}")
 
 # ------------------ Main Execution ------------------
 if __name__ == "__main__":
-    file_path = "pdffiles/Naukri_Rajaraman[3y_0m].pdf"
+    file_path = "pdffiles/Naukri_SantoshKumar[0y_0m].pdf"
 
     with open(file_path, 'rb') as file:
         file_content = file.read()
 
-    print("Step 1: Start CV Analysis")
+    logger.info("Start CV Analysis")
     extracted_data = analyze_cv_from_content(file_content)
+    logger.info(f"Extracted Data: {extracted_data}")
 
     if extracted_data:
-        extract_and_save_json(extracted_data, "outputfiles/Naukri_Rajaraman[3y_0m]/resume_1.json")
+        extract_and_save_json(extracted_data, "outputfiles/Naukri_SantoshKumar[0y_0m]/resume_1.json")
