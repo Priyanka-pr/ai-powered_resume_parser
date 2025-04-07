@@ -44,23 +44,21 @@ class WorkExperience(Experience):
     job_title: str = Field(..., alias="jobTitle")
 
 class Certification(BaseModel):
-    name: str
+    name: str = Field(..., alias="title")
     date: Optional[str] = None
     issuing_organization: Optional[str] = Field(default=None, alias="issuingOrganization")
 
 class Project(BaseModel):
-    name: str
+    name: str = Field(..., alias="title")
     description: Optional[str] = None
     technologies_used: Optional[List[str]] = Field(default_factory=list, alias="technologiesUsed")
-
 class Training(BaseModel):
     name: str = ""
     organization: Optional[str] = None
     date: Optional[str] = None
 
 class Resume(BaseModel):
-    first_name: str = Field(..., alias="firstName")
-    last_name: str = Field(..., alias="lastName")
+    full_name: str = Field(..., alias="fullName")
     linkedin_url: Optional[str] = Field(default=None, alias="linkedinUrl")
     email_address: Optional[str] = Field(default=None, alias="emailAddress")
     nationality: Optional[str] = None
@@ -105,7 +103,7 @@ def extract_text_from_docx(file_content):
 
 # ------------------ CV Parsing Logic ------------------
 def analyze_cv_from_content(file_content):
-    logger.info("Step 1: Detect file type and extract text")
+    # logger.info("Step 1: Detect file type and extract text")
 
     try:
         if file_content.startswith(b'%PDF'):
@@ -122,17 +120,12 @@ def analyze_cv_from_content(file_content):
         # logger.info(f"Step 2: Generate prompt and invoke LLM:: {extracted_text}")
 
         format_instructions=parser.get_format_instructions()
-        print(f"extracted_text type :: {type(extracted_text)}")
+        # print(f"extracted_text type :: {type(extracted_text)}")
         # extracted_text="name : Priyanka Rana"
 
         prompt = PromptTemplate(
             template=(
-                "You are an intelligent resume parser. Your task is to carefully analyze the given resume"
-                "extract relevant structured information, and return the data in a well-formatted JSON structure. "
-                "Ensure that no important details are missed, and infer missing information where possible based on context. "
-                "Pay special attention to sections like education, work experience, skills, and certifications. "
-                "If certain details are missing, return them as empty strings instead of omitting them. "                
-                " Extract structured resume information in the following JSON format:\n\n{format_instructions}\n\n"
+                "You are an intelligent resume parser... Extract information from the following resume:\n\n{format_instructions}\n\n"
                 "Resume Text:\n{document}"
             ),
             input_variables=["document"],
@@ -147,12 +140,13 @@ def analyze_cv_from_content(file_content):
             temperature=0.7,
             base_url=Config.LOCALHOST
         )
-        logger.info(f"Using LLM model: {Config.MODEL} at {Config.LOCALHOST}")
+        # logger.info(f"Using LLM model: {Config.MODEL} at {Config.LOCALHOST}")
         # chain = prompt | llm | parser
 
+        # logger.info(f"formatted_prompt LLM model: {formatted_prompt}")
          # Step 5: Send prompt to LLM
         llm_response = llm.invoke(formatted_prompt)
-        logger.debug(f"Raw LLM Response: {llm_response.content}")
+        # logger.debug(f"Raw LLM Response: {llm_response.content}")
 
         # Step 6: Parse response using the parser
         try:
@@ -193,7 +187,7 @@ def extract_and_save_json(data, output_file):
     try:
         with open(output_file, 'w', encoding='utf-8') as f:
             json5.dump(data, f, indent=4)
-        logger.info(f"JSON data successfully saved to {output_file}")
+        # logger.info(f"JSON data successfully saved to {output_file}")
     except Exception as e:
         logger.error(f"Error saving JSON: {e}")
 
@@ -204,7 +198,7 @@ if __name__ == "__main__":
     with open(file_path, 'rb') as file:
         file_content = file.read()
 
-    logger.info("Start CV Analysis")
+    # logger.info("Start CV Analysis")
     extracted_data = analyze_cv_from_content(file_content)
     logger.info(f"Extracted Data: {extracted_data}")
 
