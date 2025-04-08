@@ -12,9 +12,10 @@ from langchain_core.messages.ai import AIMessage
 from langchain_community.chat_models import ChatOllama
 from langchain_community.document_loaders.pdf import PyPDFLoader
 # from langchain.output_parsers import PydanticOutputParser, SimpleJsonOutputParser
-from langchain.output_parsers import PydanticOutputParser
+from langchain.output_parsers import PydanticOutputParser,OutputFixingParser
 from langchain.output_parsers import StructuredOutputParser
 from config import Config
+import pdfplumber
 
 # import langchain.output_parsers
 # print(dir(langchain.output_parsers))
@@ -51,16 +52,22 @@ class Resume(pydantic.BaseModel):
     work_experience: Optional[List[WorkExperience]]=[]
     hobby: Optional[List[str]]=[]
 
-parser = PydanticOutputParser(pydantic_object=Resume)
+# parser = PydanticOutputParser(pydantic_object=Resume)
+
+base_parser = PydanticOutputParser(pydantic_object=Resume)
 
 # ------------------ PDF Extraction ------------------
-def extract_text_from_pdf(file_content):
+def extract_text_from_pdf(file_path):
+    print(f"file88888")
+    # type(file_path)
     """Extracts text from a PDF file."""
     text = ''
     try:
-        pdf_document = fitz.open(stream=file_content, filetype="pdf")
-        for page in pdf_document:
-            text += page.get_text("text") + "\n"
+        with pdfplumber.open(file_path) as pdf:
+            for page in pdf.pages:
+                text = page.extract_text()
+                print(text)
+
     except Exception as e:
         print(f"Error extracting text from PDF: {e}")
     return text
@@ -79,42 +86,47 @@ def extract_text_from_docx(file_content):
         return None
 
 # ------------------ CV Parsing Logic ------------------
-def analyze_cv_from_content(file_content):
+def analyze_cv_from_content(file_path):
     """Analyzes CV content and extracts structured data using AI."""
     print("Step 2: Detect file type and extract text")
-
+    # print(f"file-content----: {file_content}")
     try:
-        if file_content.startswith(b'%PDF'):
-            extracted_text = extract_text_from_pdf(file_content)
-        elif file_content.startswith(b'PK'):
-            extracted_text = extract_text_from_docx(file_content)
-        else:
-            print("Unsupported file type")
-            return None
+        # if file_content.startswith(b'%PDF'):
+        #     print('If')
+        extracted_text = extract_text_from_pdf(file_path)
+        # elif file_content.startswith(b'PK\x03\x04'):
+        # elif file_content.startswith(b'PK'):
+        #     extracted_text = extract_text_from_docx(file_path)
+        # else:
+        #     print("Unsupported file type")
+        #     return None
 
         print("Step 3: Generating prompt")
         print(f"Extracted_text ::: {extracted_text}")
 
-        prompt = PromptTemplate(
-            template="Extract structured resume details.\n{format_instructions}\nResume Text:\n{document}\n",
-            input_variables=["document"],
-            partial_variables={"format_instructions": parser.get_format_instructions()},
-        )
 
         # # ------------------ LLM Call ------------------
         llm = ChatOllama(
             model=Config.MODEL,
-            temperature=0.7,
+            temperature=0.5,
             base_url=Config.LOCALHOST
         )
+        parser = OutputFixingParser.from_llm(parser=base_parser, llm=llm)
+
+        prompt = PromptTemplate(
+            template="Extract the following from the resume text:\n\nFirst Name, Last Name, Email, Skills.\n\n{format_instructions}Resume Text:\n{document}",
+            input_variables=["document"],
+            partial_variables={"format_instructions": parser.get_format_instructions()},
+        )
+
         chain = prompt | llm | parser
         response = chain.invoke({"document": extracted_text})
         
-        response.skill = response.skill if isinstance(response.skill, list) else [response.skill]  
-        response.hobby = response.hobby if isinstance(response.hobby, list) else [response.hobby]  
-        response.study = response.study if isinstance(response.study, list) else [response.study]
+        # response.skill = response.skill if isinstance(response.skill, list) else [response.skill]  
+        # response.hobby = response.hobby if isinstance(response.hobby, list) else [response.hobby]  
+        # response.study = response.study if isinstance(response.study, list) else [response.study]
         print(f"LLM Res:::: {response}")
-        return response.dict()
+        return response.model_dump()
     except Exception as e:
         print(f"Error analyzing CV: {traceback.format_exc()}")
         return None
@@ -130,13 +142,12 @@ def extract_and_save_json(data, output_file):
 
 # ------------------ Main Execution ------------------
 if __name__ == "__main__":
-    file_path = "pdffiles/vijay_resume.pdf"
+    file_path = "pdffiles/Bhavya_Gupta_Fresher.pdf"
 
-    with open(file_path, 'rb') as file:
-        file_content = file.read()
+
 
     print("Step 1: Start CV Analysis")
-    extracted_data = analyze_cv_from_content(file_content)
+    extracted_data = analyze_cv_from_content(file_path)
 
     if extracted_data:
-        extract_and_save_json(extracted_data, "outputfiles/vijay_resume/resume_3.json")
+        extract_and_save_json(extracted_data, "outputfiles/new_outputs/Bhavya_Gupta_Fresher_llama321b.json")
