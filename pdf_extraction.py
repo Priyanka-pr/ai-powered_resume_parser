@@ -77,7 +77,7 @@ def extract_text_from_docx(file_content):
     """Extracts text from a .docx file."""
     try:
         if file_content.startswith(b'\x50\x4b\x03\x04'):
-            return docx2txt.process(io.BytesIO(file_content)).strip()
+            return docx2txt.process()
         else:
             print("Unsupported file type (.docx)")
             return None
@@ -86,20 +86,24 @@ def extract_text_from_docx(file_content):
         return None
 
 # ------------------ CV Parsing Logic ------------------
-def analyze_cv_from_content(file_path):
+def analyze_cv_from_content(file_path, file_type):
     """Analyzes CV content and extracts structured data using AI."""
     print("Step 2: Detect file type and extract text")
     # print(f"file-content----: {file_content}")
     try:
         # if file_content.startswith(b'%PDF'):
-        #     print('If')
-        extracted_text = extract_text_from_pdf(file_path)
+        #     extracted_text = extract_text_from_pdf(file_path)
+        
         # elif file_content.startswith(b'PK\x03\x04'):
         # elif file_content.startswith(b'PK'):
         #     extracted_text = extract_text_from_docx(file_path)
         # else:
         #     print("Unsupported file type")
         #     return None
+        if file_type == "pdf":
+            extracted_text = extract_text_from_pdf(file_path)
+        elif file_type == "docx":
+            extracted_text = extract_text_from_docx(file_path)
 
         print("Step 3: Generating prompt")
         print(f"Extracted_text ::: {extracted_text}")
@@ -143,11 +147,20 @@ def extract_and_save_json(data, output_file):
 # ------------------ Main Execution ------------------
 if __name__ == "__main__":
     file_path = "pdffiles/Bhavya_Gupta_Fresher.pdf"
-
-
+    file_type=""
+    with open(file_path, 'rb') as file:
+        file_content = file.read()
+        if file_content.startswith(b'%PDF'):
+            file_type="pdf"
+        elif file_content.startswith(b'PK\x03\x04'):
+            file_type="docx"
+        else:
+            print("Unsupported file type")
 
     print("Step 1: Start CV Analysis")
-    extracted_data = analyze_cv_from_content(file_path)
+    if file_type != "":
+        extracted_data = analyze_cv_from_content(file_path, file_type)
+    
 
     if extracted_data:
         extract_and_save_json(extracted_data, "outputfiles/new_outputs/Bhavya_Gupta_Fresher_llama321b.json")
