@@ -16,6 +16,7 @@ from langchain.output_parsers import PydanticOutputParser,OutputFixingParser
 from langchain.output_parsers import StructuredOutputParser
 from config import Config
 import pdfplumber
+from langchain_core.messages import HumanMessage
 
 # import langchain.output_parsers
 # print(dir(langchain.output_parsers))
@@ -42,13 +43,13 @@ class Certification(pydantic.BaseModel):
     issuing_organization: Optional[str]=""
 
 class Resume(pydantic.BaseModel):
-    first_name: str = ""
-    last_name: str = ""
+    name: str = ""
     linkedin_url: Optional[str] = ""
     email_address: Optional[str] = ""
     nationality: Optional[str] = ""
     skill: Optional[List[str]] = []
     study: Optional[List[Study]] = []
+    certifications:Optional[List[Certification]]=[]
     work_experience: Optional[List[WorkExperience]]=[]
     hobby: Optional[List[str]]=[]
 
@@ -63,10 +64,33 @@ def extract_text_from_pdf(file_path):
     """Extracts text from a PDF file."""
     text = ''
     try:
+        # with pdfplumber.open(file_path) as pdf:
+        #     for page in pdf.pages:
+        #         text = page.extract_text()
+        #         # print(text)
+
         with pdfplumber.open(file_path) as pdf:
-            for page in pdf.pages:
-                text = page.extract_text()
-                print(text)
+            for i, page in enumerate(pdf.pages):
+                print(f"\n--- Page {i + 1} ---")
+
+                if i == 0:  # Handle only the first page as double column
+                    width = page.width
+                    height = page.height
+
+                    # Define bounding boxes for columns
+                    left_bbox = (0, 0, width / 2, height)
+                    right_bbox = (width / 2, 0, width, height)
+
+                    left_text = page.within_bbox(left_bbox).extract_text() or ""
+                    right_text = page.within_bbox(right_bbox).extract_text() or ""
+
+                    print("Left Column:\n", left_text)
+                    print("Right Column:\n", right_text)
+
+                else:  # All other pages treated normally
+                    text = page.extract_text() or ""
+                    print(text)
+
 
     except Exception as e:
         print(f"Error extracting text from PDF: {e}")
@@ -106,22 +130,39 @@ def analyze_cv_from_content(file_path, file_type):
             extracted_text = extract_text_from_docx(file_path)
 
         print("Step 3: Generating prompt")
-        print(f"Extracted_text ::: {extracted_text}")
+        print(f"Read_text ::: {extracted_text}")
+        print("Step ")
+        print("Step ")
+        print("Step ")
+        print("Step")
+        print("Step ")
 
 
         # # ------------------ LLM Call ------------------
         llm = ChatOllama(
             model=Config.MODEL,
             temperature=0.5,
-            base_url=Config.LOCALHOST
+            base_url=Config.LOCALHOST,
+            streaming=True
         )
         parser = OutputFixingParser.from_llm(parser=base_parser, llm=llm)
 
         prompt = PromptTemplate(
-            template="Extract the following from the resume text:\n\nFirst Name, Last Name, Email, Skills.\n\n{format_instructions}Resume Text:\n{document}",
+            template=
+            "You are an AI resume parser. Extract structured resume details from the resume text below.\n\n"
+            "- Extract ALL information present in the resume and organize it according to the schema provided.\n"
+            "- It is CRITICAL to include EVERY SINGLE work experience entry, no matter how brief or old.\n"
+            "- Include ALL entries for education, skills, projects, certifications.\n"
+            "- Leave fields blank if information is missing. DO NOT invent or hallucinate data.\n"
+            "- For skills, separate technical skills, languages, and other competencies.\n"
+            "- For dates, maintain the format as it appears in the resume.\n\n"
+            "{format_instructions}\n\n"
+            "Resume Text:\n{document}",
+            # "Extract the following from the resume text:{format_instructions}Resume Text:\n{document}",
             input_variables=["document"],
             partial_variables={"format_instructions": parser.get_format_instructions()},
         )
+        # formatted_prompt = prompt.format(document=extracted_text)
 
         chain = prompt | llm | parser
         response = chain.invoke({"document": extracted_text})
@@ -129,8 +170,16 @@ def analyze_cv_from_content(file_path, file_type):
         # response.skill = response.skill if isinstance(response.skill, list) else [response.skill]  
         # response.hobby = response.hobby if isinstance(response.hobby, list) else [response.hobby]  
         # response.study = response.study if isinstance(response.study, list) else [response.study]
-        print(f"LLM Res:::: {response}")
-        return response.model_dump()
+        # print(f"LLM Res:::: {response}")
+        print("Hello")
+        # Step 1: Stream the raw response
+        # raw_response = ""
+
+        # # Stream responses
+        # for chunk in llm.stream(formatted_prompt):
+        #     print(chunk.content, end="", flush=True)
+        #     raw_response += chunk.content
+        return response
     except Exception as e:
         print(f"Error analyzing CV: {traceback.format_exc()}")
         return None
@@ -163,4 +212,4 @@ if __name__ == "__main__":
     
 
     if extracted_data:
-        extract_and_save_json(extracted_data, "outputfiles/new_outputs/Bhavya_Gupta_Fresher_llama321b.json")
+        extract_and_save_json(extracted_data, "outputfiles/new_outputs/Bhavya_Gupta_newww.json")
