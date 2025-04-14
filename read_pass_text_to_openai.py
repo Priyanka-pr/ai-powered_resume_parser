@@ -13,7 +13,7 @@ from langchain_ollama import ChatOllama
 print(pytesseract.get_tesseract_version())
 
 
-# load_dotenv()
+load_dotenv()
 
 # Function to extract text from PDF using fitz
 def extract_text_from_pdf(file_content):
@@ -92,45 +92,45 @@ def analyze_cv_from_content(file_content):
         print("step5")
 
         # Load API key
-        # api_key = os.getenv("OPENAI_API_KEY")
-        # if not api_key:
-        #     raise ValueError("Missing OpenAI API Key! Check your .env file.")
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("Missing OpenAI API Key! Check your .env file.")
 
-        # client = OpenAI(api_key=api_key)
+        client = OpenAI(api_key=api_key)
 
         #  base_url="http://127.0.0.1:11434"  # or "http://172.16.6.101:11434" if running remotely
 
         messages = [{"role": "system", "content": "You are an expert in extracting structured information from CVs"},
                     {"role": "user", "content": prompt}]
 
-        # response = client.chat.completions.create(model="gpt-3.5-turbo", messages=messages, temperature=0)
+        response = client.chat.completions.create(model="gpt-3.5-turbo", messages=messages, temperature=0)
         print("step6")
 
-        print("extracted text111 ")
-        llm= ChatOllama(
-            model="mistral-nemo",
-            temperature=0.7,
-            base_url="http://127.0.0.1:11434"
-            )
-        response= llm.invoke(extracted_text)
-        print("extracted text ")
+        # print("extracted text111 ")
+        # llm= ChatOllama(
+        #     model="mistral-nemo",
+        #     temperature=0.7,
+        #     base_url="http://127.0.0.1:11434"
+        #     )
+        # response= llm.invoke(extracted_text)
+        # print("extracted text ")
         
-        print(f"extracted text : {response.content}")
+        # print(f"extracted text : {response.content}")
         # # Extract the assistant's message
-        # content = response.choices[0].message.content.strip()
+        content = response.choices[0].message.content.strip()
         
         # # # Check if response contains JSON in backticks
-        # match = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
-        # if not match:
-        #     match = re.search(r'```\n(.*?)\n```', content, re.DOTALL)
+        match = re.search(r'```json\n(.*?)\n```', content, re.DOTALL)
+        if not match:
+            match = re.search(r'```\n(.*?)\n```', content, re.DOTALL)
         
-        # json_data = match.group(1) if match else content  
+        json_data = match.group(1) if match else content  
         # # If no backticks, assume direct JSON
         
         # # # Parse JSON safely
-        # parsed_json = json.loads(json_data)
-
-        return response.content
+        parsed_json = json.loads(json_data)
+        return parsed_json
+        # return response.content
     except Exception as e:
         print(f"Error analyzing CV: {e}")
         return None
@@ -148,12 +148,12 @@ def extract_and_save_json(data, output_file):
 
 # Main execution
 if __name__ == "__main__":
-    file_path = "pdffiles/Naukri_RevanthHR[2y_5m].pdf"
+    file_path = "pdffiles/Bhavya_Gupta_Fresher.pdf"
     with open(file_path, 'rb') as file:
         file_content = file.read()
     print("step1")
     extracted_data = analyze_cv_from_content(file_content)
 
     if extracted_data:
-        extract_and_save_json(extracted_data, "outputfiles/Naukri_RevanthHR[2y_5m]/resume_2.json")
+        extract_and_save_json(extracted_data, "outputfiles/Naukri_RevanthHR[2y_5m]/Bhavya_Gupta_Fresher.json")
 

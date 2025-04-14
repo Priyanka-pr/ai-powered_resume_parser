@@ -17,42 +17,72 @@ from langchain.output_parsers import StructuredOutputParser
 from config import Config
 import pdfplumber
 from langchain_core.messages import HumanMessage
+from openai import OpenAI
+from pydantic import ValidationError
+from pydantic import BaseModel
 
 # import langchain.output_parsers
 # print(dir(langchain.output_parsers))
 
 # ------------------ Data Models ------------------
-class Experience(pydantic.BaseModel):
-    start_date: Optional[str] = ""
-    end_date: Optional[str] = ""
-    description: Optional[str] = ""
 
-class Study(Experience):
-    degree: Optional[str] = ""
-    university: Optional[str] = ""
-    country: Optional[str] = ""
-    grade: Optional[str] = ""
 
-class WorkExperience(Experience):
-    company: str = ""
-    job_title: str = ""
+class WorkExperience(BaseModel):
+    jobTitle: Optional[str]
+    companyName: Optional[str]
+    startDate: Optional[str]
+    endDate: Optional[str]
+    location: Optional[str]
+    description: Optional[str]
 
-class Certification(pydantic.BaseModel):
-    name: str=""
-    date: Optional[str] =""
-    issuing_organization: Optional[str]=""
 
-class Resume(pydantic.BaseModel):
-    name: str = ""
-    linkedin_url: Optional[str] = ""
-    email_address: Optional[str] = ""
-    nationality: Optional[str] = ""
-    skill: Optional[List[str]] = []
-    study: Optional[List[Study]] = []
-    certifications:Optional[List[Certification]]=[]
-    work_experience: Optional[List[WorkExperience]]=[]
-    hobby: Optional[List[str]]=[]
+class Education(BaseModel):
+    degree: Optional[str]
+    fieldOfStudy: Optional[str]
+    institutionName: Optional[str]
+    startDate: Optional[str]
+    endDate: Optional[str]
+    grade: Optional[str]
 
+
+class Project(BaseModel):
+    projectTitle: Optional[str]
+    description: Optional[str]
+    technologiesUsed: Optional[List[str]]
+    role: Optional[str]
+    duration: Optional[str]
+
+
+class Certification(BaseModel):
+    name: Optional[str]
+    issuingOrganization: Optional[str]
+    issueDate: Optional[str]
+    expirationDate: Optional[str]
+
+
+class SkillSet(BaseModel):
+    technicalSkills: Optional[List[str]]
+    languages: Optional[List[str]]
+    otherSkills: Optional[List[str]]
+
+
+class PersonalDetails(BaseModel):
+    fullName: Optional[str]
+    email: Optional[str]
+    phoneNumber: Optional[str]
+    address: Optional[str]
+    linkedin: Optional[str]
+    github: Optional[str]
+    website: Optional[str]
+
+
+class Resume(BaseModel):
+    personalDetails: Optional[PersonalDetails]
+    workExperience: List[WorkExperience] = []
+    education: List[Education] = []
+    projects: List[Project] = []
+    certifications: List[Certification] = []
+    skills: Optional[SkillSet]
 # parser = PydanticOutputParser(pydantic_object=Resume)
 
 base_parser = PydanticOutputParser(pydantic_object=Resume)
@@ -64,11 +94,6 @@ def extract_text_from_pdf(file_path):
     """Extracts text from a PDF file."""
     text = ''
     try:
-        # with pdfplumber.open(file_path) as pdf:
-        #     for page in pdf.pages:
-        #         text = page.extract_text()
-        #         # print(text)
-
         with pdfplumber.open(file_path) as pdf:
             for i, page in enumerate(pdf.pages):
                 print(f"\n--- Page {i + 1} ---")
@@ -149,14 +174,14 @@ def analyze_cv_from_content(file_path, file_type):
 
         prompt = PromptTemplate(
             template=
-            "You are an AI resume parser. Extract structured resume details from the resume text below.\n\n"
-            "- Extract ALL information present in the resume and organize it according to the schema provided.\n"
-            "- It is CRITICAL to include EVERY SINGLE work experience entry, no matter how brief or old.\n"
-            "- Include ALL entries for education, skills, projects, certifications.\n"
-            "- Leave fields blank if information is missing. DO NOT invent or hallucinate data.\n"
-            "- For skills, separate technical skills, languages, and other competencies.\n"
-            "- For dates, maintain the format as it appears in the resume.\n\n"
-            "{format_instructions}\n\n"
+            "You are an intelligent resume parser. Your task is to extract and return a structured JSON object based on the schema below from the provided resume text.\n\n"
+            "- Extract **all available information** from the resume, even if the entries are brief, old, or formatted differently.\n"
+            "- Do not make up any information. Leave fields as `null` or `""` if not available in the resume.\n"
+            "- Maintain **original formatting for dates**, even if inconsistent.\n"
+            "- Ensure **all work experience**, **education**, **skills**, **projects**, **certifications**, and **personal information** are captured.\n"
+            "- Classify skills into: `technicalSkills`, `languages`, and `otherSkills`.\n"
+            "- For each section, return a list of entries, even if there's only one.\n"
+            "- Return the result in strict accordance with the JSON schema shown in {format_instructions}.\n\n"
             "Resume Text:\n{document}",
             # "Extract the following from the resume text:{format_instructions}Resume Text:\n{document}",
             input_variables=["document"],
@@ -179,19 +204,35 @@ def analyze_cv_from_content(file_path, file_type):
         # for chunk in llm.stream(formatted_prompt):
         #     print(chunk.content, end="", flush=True)
         #     raw_response += chunk.content
+        try:
+            parsed = Resume.model_validate(response)
+            print(parsed)
+        except ValidationError as e:
+            print("Validation errors:")
+            print(e.json(indent=2))
         return response
     except Exception as e:
         print(f"Error analyzing CV: {traceback.format_exc()}")
         return None
 
 # ------------------ Save Extracted JSON ------------------
+# def extract_and_save_json(data, output_file):
+#     try:
+#         with open(output_file, 'w', encoding='utf-8') as f:
+#             json.dump(data, f, indent=4)
+#         print(f"JSON data successfully saved to {output_file}")
+#     except Exception as e:
+#         print(f"Error saving JSON: {e}")
+
 def extract_and_save_json(data, output_file):
     try:
         with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=4)
+            # Use the dict() method to convert the Pydantic object to a serializable dictionary.
+            json.dump(data.dict(), f, indent=4)
         print(f"JSON data successfully saved to {output_file}")
     except Exception as e:
         print(f"Error saving JSON: {e}")
+
 
 # ------------------ Main Execution ------------------
 if __name__ == "__main__":
@@ -212,4 +253,4 @@ if __name__ == "__main__":
     
 
     if extracted_data:
-        extract_and_save_json(extracted_data, "outputfiles/new_outputs/Bhavya_Gupta_newww.json")
+        extract_and_save_json(extracted_data, "outputfiles/new_outputs/Bhavya_Gupta_new_new.json")
