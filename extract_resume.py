@@ -11,68 +11,76 @@ from langchain.prompts import PromptTemplate
 from langchain_core.messages import HumanMessage
 from openai import OpenAI
 from langchain_openai import ChatOpenAI
-from pydantic import BaseModel
+from pydantic import BaseModel,Field
 
 # Load environment variables
 load_dotenv()
 
 # ------------------ Data Models ------------------
 
-class Education(BaseModel):
-    course: str
+class BasicInfo(BaseModel):
+    first_name: str
+    last_name: str
+    phone_number: Optional[str] = ""
+    email: Optional[str] = ""
+    gender: Optional[str] = ""
+    location: Optional[str] = ""
+    linkedin_url: Optional[str] = ""
+    designation: Optional[str] = ""
+    university: Optional[str] = ""
+    education_level: Optional[str] = ""
+    graduation_year: Optional[str] = ""
+    graduation_month: Optional[str] = ""
+
+
+class EducationEntry(BaseModel):
+    degree_certificate: str
     institution: str
-    location: Optional[str] = None
-    year_of_passing: Optional[str] = None
-    performance: Optional[str] = None
+    passing_year: Optional[str] = ""
+    completion_year: Optional[str] = ""
+    GPA: Optional[str] = ""
 
 
-class Certification(BaseModel):
-    name: str
-    issuer: Optional[str] = None
-    year: Optional[str] = None
-
-
-class SkillSet(BaseModel):
-    technical_skills: List[str]
-    soft_skills: List[str]
+class WorkExperience(BaseModel):
+    company_name: str
+    job_title: Optional[str] = ""
+    start_date: Optional[str] = ""
+    end_date: Optional[str] = ""
+    description: Optional[str] = ""
 
 
 class Project(BaseModel):
-    title: str
-    organization: Optional[str] = None
-    description: Optional[str] = None
-    technologies: Optional[List[str]] = None
-    date_range: Optional[str] = None
+    project_name: str
+    client: Optional[str] = ""
+    role: Optional[str] = ""
+    start_date: Optional[str] = ""
+    end_date: Optional[str] = ""
+    description: Optional[str] = ""
 
 
-class PositionOfResponsibility(BaseModel):
-    title: str
-    organization: str
-    description: Optional[List[str]] = None
-    start_date: Optional[str] = None
-    end_date: Optional[str] = None
+class Certification(BaseModel):
+    certification_name: str
+    issuer: Optional[str] = ""
+    date: Optional[str] = ""
+    description: Optional[str] = ""
 
 
-class VolunteerWork(BaseModel):
-    role: str
-    organization: Optional[str] = None
-    description: Optional[str] = None
+class Interest(BaseModel):
+    interest_name: str
+    description: Optional[str] = ""
 
 
 class Resume(BaseModel):
-    name: Optional[str] = None
-    dob: Optional[str] = None
-    address: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    education: List[Education]
-    certifications: List[Certification]
-    skills: SkillSet
-    internships_and_projects: List[Project]
-    positions_of_responsibility: List[PositionOfResponsibility]
-    volunteer_experience: List[VolunteerWork]
-    interests: Optional[List[str]] = None
-    remarks:str=""
+    basic_info: BasicInfo
+    objective: Optional[str] = ""
+    education: List[EducationEntry] = Field(default_factory=list)
+    work_experience: List[WorkExperience] = Field(default_factory=list)
+    projects: List[Project] = Field(default_factory=list)
+    certifications: List[Certification] = Field(default_factory=list)
+    publications: List[str] = Field(default_factory=list)
+    skills: List[str] = Field(default_factory=list)
+    interests: List[str] = Field(default_factory=list)
+    additional_information: List[str] = Field(default_factory=list)
 # Parser based on schema
 base_parser = PydanticOutputParser(pydantic_object=Resume)
 
@@ -149,7 +157,7 @@ def analyze_cv_from_content(file_path, file_type):
         # return "hello"
 
     except Exception as e:
-        print(f"Error analyzing CV:\n{traceback.format_exc()}")
+        # print(f"Error analyzing CV:\n{traceback.format_exc()}")
         return None
 # ------------------ Output Helper ------------------
 def extract_and_save_json(data, output_file):
@@ -178,4 +186,4 @@ if __name__ == "__main__":
         print("🚦 Starting Resume Parsing...")
         extracted_data = analyze_cv_from_content(file_path, file_type)
         if extracted_data:
-            extract_and_save_json(extracted_data, "outputfiles/new_outputs/CV-Kapil_kaushik_2.json")
+            extract_and_save_json(extracted_data, "outputfiles/new_outputs/CV-Kapil_kaushik_AI.json")

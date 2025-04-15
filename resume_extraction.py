@@ -2,10 +2,6 @@ from pdf2image import convert_from_path
 import pydantic
 import json
 import docx2txt
-import io
-import re
-import fitz  # PyMuPDF
-import traceback
 from typing import Optional,List
 from langchain.prompts import PromptTemplate
 from langchain_core.messages.ai import AIMessage
@@ -18,6 +14,7 @@ from config import Config
 import pdfplumber
 from langchain_core.messages import HumanMessage
 from openai import OpenAI
+from pydantic import BaseModel,Field
 
 
 
@@ -152,7 +149,7 @@ def analyze_cv_from_content(file_path, file_type):
         print("✅ Step 5: Parsed response successfully")
         return response.model_dump()
     except Exception as e:
-        print(f"Error analyzing CV: {traceback.format_exc()}")
+        # print(f"Error analyzing CV: {traceback.format_exc()}")
         return None
 
 

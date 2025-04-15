@@ -187,10 +187,10 @@ def analyze_cv_from_content(file_path, file_type):
             input_variables=["document"],
             partial_variables={"format_instructions": parser.get_format_instructions()},
         )
-        # formatted_prompt = prompt.format(document=extracted_text)
+        formatted_prompt = prompt.format(document=extracted_text)
 
-        chain = prompt | llm | parser
-        response = chain.invoke({"document": extracted_text})
+        # chain = prompt | llm | parser
+        response = llm.invoke(formatted_prompt)
         
         # response.skill = response.skill if isinstance(response.skill, list) else [response.skill]  
         # response.hobby = response.hobby if isinstance(response.hobby, list) else [response.hobby]  
@@ -212,7 +212,7 @@ def analyze_cv_from_content(file_path, file_type):
             print(e.json(indent=2))
         return response
     except Exception as e:
-        print(f"Error analyzing CV: {traceback.format_exc()}")
+        # print(f"Error analyzing CV: {traceback.format_exc()}")
         return None
 
 # ------------------ Save Extracted JSON ------------------

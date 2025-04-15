@@ -5,68 +5,45 @@ import os
 from langchain_community.chat_models import ChatOllama
 from config import Config
 from pydantic import BaseModel,Field
-from typing import Optional,List
+from typing import Optional,List,Union
 from langchain.output_parsers import PydanticOutputParser,OutputFixingParser
 from langchain.prompts import PromptTemplate
 import unittest
 from pydantic import ValidationError
+import json
+from langchain.schema import SystemMessage, HumanMessage
 
-class Education(BaseModel):
-    course: str
+class Contact(BaseModel):
+    date_of_birth: Optional[str] = None
+    gender: Optional[str] = None
+    nationality: Optional[str] = None
+    language: Optional[List[str]] = []
+    relationship_status: Optional[str] = None
+    city: Optional[List[str]] = []
+
+class EducationEntry(BaseModel):
     institution: str
-    location: Optional[str] = None
-    year_of_passing: Optional[str] = None
-    performance: Optional[str] = None
-class Name(BaseModel):
-    first: str
-    last: str
+    degree: str
+    year_of_passing: Union[int, str]
 
-class Certification(BaseModel):
-    name: str
-    issuer: Optional[str] = None
-    year: Optional[str] = None
-
-
-class SkillSet(BaseModel):
-    technical_skills: List[str]
-    soft_skills: List[str]
-
+class WorkExperience(BaseModel):
+    company: str
+    role: Optional[str] = None
+    domain: Optional[str] = None
+    location: Union[str, List[str], None] = None
 
 class Project(BaseModel):
-    title: str
-    organization: Optional[str] = None
+    name: str
     description: Optional[str] = None
-    technologies: Optional[List[str]] = None
-    date_range: Optional[str] = None
-
-
-class PositionOfResponsibility(BaseModel):
-    title: str
-    organization: str
-    description: Optional[List[str]] = None
-    start_date: Optional[str] = None
-    end_date: Optional[str] = None
-
-
-class VolunteerWork(BaseModel):
-    role: str
-    organization: Optional[str] = None
-    description: Optional[str] = None
-
 
 class Resume(BaseModel):
-    name: Name
-    dob: Optional[str] = None
-    address: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    education: List[Education] = Field(default_factory=list)
-    certifications: List[Certification] = Field(default_factory=list)
-    skills: SkillSet = Field(default_factory=lambda: SkillSet(technical_skills=[], soft_skills=[]))
-    internships_and_projects: List[Project] = Field(default_factory=list)
-    positions_of_responsibility: List[PositionOfResponsibility] = Field(default_factory=list)
-    volunteer_experience: List[VolunteerWork] = Field(default_factory=list)
-    interests: Optional[List[str]] = Field(default_factory=list)
+    name: str
+    contact: Optional[Contact] = None
+    education: Optional[List[EducationEntry]] = []
+    work_experience: Optional[List[WorkExperience]] = []
+    projects: Optional[List[Project]] = []
+    hobbies: Optional[List[str]] = []
+
 # Parser based on schema
 base_parser = PydanticOutputParser(pydantic_object=Resume)
 
@@ -165,6 +142,24 @@ def extract_full_text_and_tables(file_path):
 
     return full_text.strip()
 
+
+# ----- Build Prompt Using JSON Schema -----
+def build_prompt(resume_text: str, json_structure: dict) -> str:
+    return f"""
+You are an intelligent resume parser. Extract relevant information from the resume text below and populate it in the given JSON structure.
+
+Resume Text:
+\"\"\"
+{resume_text}
+\"\"\"
+
+Return the filled JSON structure in proper format:
+{json.dumps(json_structure, indent=2)}
+
+Only return a valid JSON object as output. Do not include any explanations or commentary.
+"""
+
+
 def select_pdf_and_extract_text():
     """Select a PDF and extract all text + table contents."""
     root = tk.Tk()
@@ -182,12 +177,27 @@ def select_pdf_and_extract_text():
     print(f"Extracting content from: {file_path}")
     text = extract_full_text_and_tables(file_path)
             # # ------------------ LLM Call ------------------
-    try:
-        parsed = Resume(text) # or Resume(**response) for older Pydantic versions
-        print(f"parsed data::: {parsed}")
-    except ValidationError as e:
-        print(e.json(indent=2))
-
+    # try:
+    #     parsed = Resume(text) # or Resume(**response) for older Pydantic versions
+    #     print(f"parsed data::: {parsed}")
+    # except ValidationError as e:
+    #     print(e.json(indent=2))
+    
+        #Define JSON structure for extraction
+    json_structure={
+            "basic_info":{
+                "first_name":"","last_name":"","phone_number": "", "email": "","gender": "","location": "", "linkedin_url": "", "designation": "","university": "","education_level": "", "graduation_year": "", "graduation_month": ""
+            },
+            "objective":"",
+            "education":[{"degree_certificate": "", "institution": "", "passing_year": "", "completion_year": "", "GPA": ""}],
+            "work_experience": [],
+            "projects": [],
+            "certifications": [],
+            "publications": [],
+            "skills": [],
+            "interests": [],
+            "additional_information": []
+    }
 
     llm = ChatOllama(
             model=Config.MODEL,
@@ -196,6 +206,8 @@ def select_pdf_and_extract_text():
             streaming=True
         )
     parser = OutputFixingParser.from_llm(parser=base_parser, llm=llm)
+    # prompt2 = build_prompt(text, json_structure)
+
 
     prompt = PromptTemplate(
             template=
@@ -213,32 +225,36 @@ def select_pdf_and_extract_text():
             input_variables=["document"],
             partial_variables={"format_instructions": parser.get_format_instructions()},
         )
+    # response = llm([
+    #         SystemMessage(content="You are a resume parser."),
+    #         HumanMessage(content=prompt2)
+    # ])
     # llm_response = llm.invoke(text)
-    # print(f"llm res::: {llm_response}")
-    # print("Extracted Text:::", text[:500])  
-    # formatted_prompt = prompt.format(document=text)
-    # print("🚀 Step 4: Invoking LLM...")
-    # llm_response = llm.invoke(formatted_prompt)
-    # print("🧾 Raw LLM Output:", llm_response.content[:500])
-    # response = parser.parse(llm_response.content)
-    # print(f"llm response ::: {response}")
-    # if response:
-    #     # Define output directory
-    #     script_dir = os.path.dirname(os.path.abspath(__file__))
-    #     output_dir = os.path.join(script_dir, "outputfiles")
-    #     os.makedirs(output_dir, exist_ok=True)
+    # print(f"llm res::: {response.content}")
+    print("Extracted Text:::", text[:500])  
+    formatted_prompt = prompt.format(document=text)
+    print("🚀 Step 4: Invoking LLM...")
+    llm_response = llm.invoke(formatted_prompt)
+    print("🧾 Raw LLM Output:", llm_response.content[:500])
+    response = parser.parse(llm_response.content)
+    print(f"llm response ::: {response}")
+    if response:
+        # Define output directory
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        output_dir = os.path.join(script_dir, "outputfiles/new_resume_json")
+        os.makedirs(output_dir, exist_ok=True)
 
-    #     # Define output file path
-    #     base_name = os.path.splitext(os.path.basename(file_path))[0]
-    #     output_path = os.path.join(output_dir, base_name + "_extracted.txt")
+        # Define output file path
+        base_name = os.path.splitext(os.path.basename(file_path))[0]
+        output_path = os.path.join(output_dir, base_name + "_extracted.txt")
 
-    #     with open(output_path, "w", encoding="utf-8") as f:
-    #         f.write(llm_response)
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(llm_response)
 
-    #     print(f"\n✅ Text and tables extracted to:\n{output_path}")
-    # else:
-    #     print("❌ No content extracted from the PDF.")
+        print(f"\n✅ Text and tables extracted to:\n{output_path}")
+    else:
+        print("❌ No content extracted from the PDF.")
 
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
     select_pdf_and_extract_text()
